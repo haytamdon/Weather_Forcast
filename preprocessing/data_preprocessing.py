@@ -50,7 +50,7 @@ def preprocess_data(X,y, sampling_rate = 6, sequence_length = 120, batch_size = 
 
     test = keras.utils.timeseries_dataset_from_array(
         X[:-delay],
-        targets=y[delay:],
+        targets=None,
         sampling_rate=sampling_rate,
         sequence_length=sequence_length,
         shuffle=True,
@@ -60,11 +60,5 @@ def preprocess_data(X,y, sampling_rate = 6, sequence_length = 120, batch_size = 
     return train, val, test
 
 def generate_inference_data(sampling_rate= 6, sequence_length = 120):
-    X,y = read_data()
-    num_train_samples = int(0.5 * len(X))
-    num_val_samples = int(0.25 * len(X))
-    num_test_samples = len(X) - num_train_samples - num_val_samples
-    delay = sampling_rate * (sequence_length + 24 - 1)
-    X = X[:-delay]
-    X_inference = X[num_train_samples + num_val_samples:]
-    return X_inference
+    train, val, test = preprocess_data(read_data())
+    return test
