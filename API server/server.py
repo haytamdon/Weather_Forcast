@@ -15,7 +15,6 @@ model = tf.keras.models.load_model(model_file_path)
 
 def process_data(X):
     X = np.Array(X)
-    delay = 858
     inference = keras.utils.timeseries_dataset_from_array(
         X,
         targets=None,
@@ -33,10 +32,10 @@ async def run_model(features: Features):
         'note': features.note,
         'list': features.data
         } )
-    data = process_data(X)
-    y_pred = model.predict([features.data])
+    data = process_data(features.data)
+    y_pred = model.predict([X])
     print(Y_pred)
     return {
                 "note": features.note,
-                "value": Y_pred[0, 0]
+                "value": Y_pred
             }
