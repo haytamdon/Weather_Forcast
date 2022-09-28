@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from typing import List
 import tensorflow as tf
 from tensorflow import keras
+import numpy as np
 
 class Features(BaseModel):
     note: str
@@ -13,15 +14,16 @@ model_file_path = "../../LSTM_model_best.keras"
 model = tf.keras.models.load_model(model_file_path)
 
 def process_data(X):
+    X = np.Array(X)
     delay = 858
     inference = keras.utils.timeseries_dataset_from_array(
-        X[:-delay],
+        X,
         targets=None,
         sampling_rate= 6,
         sequence_length= 120,
         shuffle=True,
         batch_size=batch_size,
-        start_index=num_train_samples + num_val_samples)
+        start_index= 0)
     return inference
 
 app = FastAPI()
@@ -31,7 +33,7 @@ async def run_model(features: Features):
         'note': features.note,
         'list': features.data
         } )
-    
+    data = process_data(X)
     y_pred = model.predict([features.data])
     print(Y_pred)
     return {
