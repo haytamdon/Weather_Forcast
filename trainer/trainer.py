@@ -11,3 +11,4 @@ def trainer(model, train, val, opt = "rmsprop", loss_func = "mse", metric_list =
                     epochs= epoch_num,
                     validation_data=val,
                     callbacks=callbacks)
+    return history
