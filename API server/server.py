@@ -20,7 +20,7 @@ async def run_model(features: Features):
         'note': features.note,
         'list': features.data
         } )
-    y_pred = mod_LR.predict([features.data])
+    y_pred = model.predict([features.data])
     print(Y_pred)
     return {
                 "note": features.note,
