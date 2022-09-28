@@ -66,4 +66,5 @@ def generate_inference_data(sampling_rate= 6, sequence_length = 120):
     num_test_samples = len(X) - num_train_samples - num_val_samples
     delay = sampling_rate * (sequence_length + 24 - 1)
     X = X[:-delay]
-    
+    X_inference = X[num_train_samples + num_val_samples:]
+    return X_inference
