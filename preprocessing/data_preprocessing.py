@@ -60,5 +60,10 @@ def preprocess_data(X,y, sampling_rate = 6, sequence_length = 120, batch_size = 
     return train, val, test
 
 def generate_inference_data(sampling_rate= 6, sequence_length = 120):
-    train, val, test = preprocess_data(read_data())
-    return test
+    X,y = read_data()
+    num_train_samples = int(0.5 * len(X))
+    num_val_samples = int(0.25 * len(X))
+    delay = 858
+    X = X[:-delay]
+    inference = X[num_train_samples + num_val_samples:]
+    return inference
